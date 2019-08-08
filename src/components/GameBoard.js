@@ -1,7 +1,7 @@
 import React from "react";
 import sudokuGenerator from '../sudokuGenerator';
 import Grid from "./Grid/Grid";
-
+import InputOptions from './Grid/InputOptions';
 
 
 class GameBoard extends React.Component{
@@ -27,8 +27,16 @@ class GameBoard extends React.Component{
 
         this.state = {
             sudoku,
-            lastActive : null
+            currentActive : null
         };
+    }
+
+    componentDidMount(){
+        document.addEventListener('keydown', this.handleInputKeyPress);
+    }
+
+    componentWillUnmount(){
+        document.removeEventListener('keydown', this.handleInputKeyPress);
     }
 
     toggleClass = (cell) =>{
@@ -38,18 +46,18 @@ class GameBoard extends React.Component{
         let sudoku = [...this.state.sudoku];
         sudoku[cell.row][cell.column].active = true;
 
-        if(this.state.lastActive === null){
+        if(this.state.currentActive === null){
             this.setState({
-                lastActive: [cell.row, cell.column],
+                currentActive: [cell.row, cell.column],
                 sudoku
             });
         }
-        else if(cell.row === this.state.lastActive[0] && cell.column === this.state.lastActive[1])
+        else if(cell.row === this.state.currentActive[0] && cell.column === this.state.currentActive[1])
             return;
         else{
-            sudoku[this.state.lastActive[0]][this.state.lastActive[1]].active = false;
+            sudoku[this.state.currentActive[0]][this.state.currentActive[1]].active = false;
             this.setState({
-                lastActive: [cell.row, cell.column],
+                currentActive: [cell.row, cell.column],
                 sudoku
             });
         }
@@ -76,6 +84,28 @@ class GameBoard extends React.Component{
         return sudoku;
     }
 
+    handleInputNumClick = (inputNum) => {
+        if(this.state.currentActive === null)
+            return;
+
+        let sudoku = [...this.state.sudoku];
+
+        sudoku[this.state.currentActive[0]][this.state.currentActive[1]].guess = inputNum;
+
+        this.setState({sudoku});
+    }
+
+    handleInputKeyPress = (event)=>{
+        if(this.state.currentActive === null)
+            return;
+
+        if(event.keyCode >= 49 && event.keyCode <= 57){
+            let sudoku = [...this.state.sudoku];
+            sudoku[this.state.currentActive[0]][this.state.currentActive[1]].guess = parseInt(String.fromCharCode(event.keyCode));
+            this.setState({sudoku});
+        }
+    }
+
     render(){
         return(
             <div id="gameboard">
@@ -84,12 +114,23 @@ class GameBoard extends React.Component{
                         {this.state.sudoku.map((row, i)=>(
                             <tr key={i}>
                                 {row.map((n)=>(
-                                    <Grid key={`${n.row}${n.column}`} n={n} toggleClass={this.toggleClass}/>
+                                    <Grid 
+                                        key={`${n.row}${n.column}`} 
+                                        n={n} 
+                                        toggleClass={this.toggleClass}
+                                    />
                                 ))}
                             </tr>
                         ))}
                     </tbody>
                 </table>
+
+                <InputOptions 
+                    guess={this.state.currentActive!==null && 
+                        this.state.sudoku[this.state.currentActive[0]][this.state.currentActive[1]].guess}
+                    currentActive={this.state.currentActive} 
+                    handleInputNum={this.handleInputNumClick}
+                />
             </div>
         );
     }
