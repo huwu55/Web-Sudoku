@@ -26,18 +26,16 @@ import React from "react";
 // }
 
 export default (props)=>{
-    let cellstyle = 'grid';
+    let cellstyle = 'cell';
 
     if(props.n.active)
         cellstyle+=' active';
     
-    if(props.n.prefilled)
-        cellstyle+=' prefilled';
 
     return(
-        <td className={cellstyle} onClick={()=>props.toggleClass(props.n)}>
-            <div className='cell'>
-                {props.n.digit}
+        <td className={props.n.prefilled ? 'prefilled' : ''} key={`${props.n.row}${props.n.column}`}>
+            <div className={cellstyle} onClick={()=>props.toggleClass(props.n)}>
+                {props.n.prefilled && props.n.digit}
             </div>
         </td>
     );

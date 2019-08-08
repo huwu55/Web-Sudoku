@@ -1,5 +1,4 @@
 import React from "react";
-// import update from 'immutability-helper';
 import sudokuGenerator from '../sudokuGenerator';
 import Grid from "./Grid/Grid";
 
@@ -9,13 +8,6 @@ class GameBoard extends React.Component{
     constructor(props){
         super(props);
 
-        this.state = {
-            sudoku : [],
-            lastActive : null
-        };
-    }
-
-    componentDidMount(){
         let solvedSudoku = sudokuGenerator();
         let sudoku = solvedSudoku.map((row, r)=>{
             return row.map((n, c)=>{
@@ -31,8 +23,12 @@ class GameBoard extends React.Component{
             });
         });
 
-        console.log(sudoku);
-        this.setState({sudoku});
+        sudoku = this.removeNumbers(sudoku);
+
+        this.state = {
+            sudoku,
+            lastActive : null
+        };
     }
 
     toggleClass = (cell) =>{
@@ -59,6 +55,27 @@ class GameBoard extends React.Component{
         }
     }
 
+    removeNumbers = (sudoku) => {
+        // .21
+        let num_prefilled = 81;
+
+        for(let i = 0; i < 9; i++){
+            for(let j = 0; j < 9; j++){
+                if(num_prefilled > 17 && Math.random() > 0.21){
+                    sudoku[i][j].prefilled = false;
+                    num_prefilled--;
+                }
+
+                if(num_prefilled <= 17)
+                    break;
+            }
+            if(num_prefilled <= 17)
+                break;
+        }
+
+        return sudoku;
+    }
+
     render(){
         return(
             <div id="gameboard">
@@ -67,7 +84,7 @@ class GameBoard extends React.Component{
                         {this.state.sudoku.map((row, i)=>(
                             <tr key={i}>
                                 {row.map((n)=>(
-                                    <Grid n={n} toggleClass={this.toggleClass}/>
+                                    <Grid key={`${n.row}${n.column}`} n={n} toggleClass={this.toggleClass}/>
                                 ))}
                             </tr>
                         ))}

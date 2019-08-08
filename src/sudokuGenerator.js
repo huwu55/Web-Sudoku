@@ -110,5 +110,4 @@ function generateSolvedSudoku(){
     return matrix;
 }
 
-
-module.exports = generateSolvedSudoku;
+export default generateSolvedSudoku;

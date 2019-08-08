@@ -13,9 +13,10 @@ class Sudoku extends React.Component {
         // }
     }
 
-    // componentDidMount(){
+    //componentDidMount(){
     //     let sudoku = sudokuGenerator();
     //     this.setState({sudoku});
+    //     console.log(this);
     // }
 
     render(){
