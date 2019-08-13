@@ -68,6 +68,10 @@ td {
     background-color: lightgrey;
 }
 
+.conflict{
+    color: red;
+}
+
 #inputOptions{
     text-align: center;
 }
@@ -83,6 +87,10 @@ td {
     border-radius: 5px;
     text-align: center;
     padding: 2px 0;
+}
+
+.inputNum:hover{
+    cursor: pointer;
 }
 
 .entered{

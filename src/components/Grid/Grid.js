@@ -5,6 +5,9 @@ export default (props)=>{
 
     if(props.n.active)
         cellstyle+=' active';
+
+    if(props.n.conflicts.length !== 0)
+        cellstyle+=' conflict';
     
     return(
         <td className={props.n.prefilled ? 'inactive' : ''} key={`${props.n.row}${props.n.column}`}>
