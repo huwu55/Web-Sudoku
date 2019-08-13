@@ -31,7 +31,8 @@ class GameBoard extends React.Component{
             currentActive : {
                 row: -1,
                 column: -1
-            }
+            },
+            revealed: false
         };
     }
 
