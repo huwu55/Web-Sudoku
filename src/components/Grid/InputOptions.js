@@ -6,6 +6,9 @@ export default (props) => {
     if(props.currentActive.row === -1)
         inputNumClass += " inactive";
 
+    if(props.revealed)
+        inputNumClass += " inactive";
+
     let inputNums = [1,2,3,4,5,6,7,8,9];
     
     return (

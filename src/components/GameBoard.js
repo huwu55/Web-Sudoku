@@ -90,7 +90,7 @@ class GameBoard extends React.Component{
     }
 
     handleInputNumClick = (inputNum) => {
-        if(this.state.currentActive.row === -1)
+        if(this.state.currentActive.row === -1 || this.state.revealed)
             return;
 
         let sudoku = [...this.state.sudoku];
@@ -104,7 +104,7 @@ class GameBoard extends React.Component{
     }
 
     handleInputKeyPress = (event)=>{
-        if(this.state.currentActive.row === -1)
+        if(this.state.currentActive.row === -1 || this.state.revealed)
             return;
 
         if(event.keyCode >= 49 && event.keyCode <= 57){
@@ -263,11 +263,31 @@ class GameBoard extends React.Component{
 
         sudoku = this.removeNumbers(sudoku);
 
-        this.setState({sudoku});
+        this.setState({
+            sudoku, 
+            currentActive : {
+                row: -1,
+                column: -1
+            },
+            revealed: false
+        });
     }
 
     revealAll = ()=>{
+        // let sudoku = [...this.state.sudoku];
+
+        // sudoku = sudoku.map(r=>{
+        //     return r.map(n=>{
+        //         n.conflicts = [];
+        //         return n;
+        //     });
+        // });
+
         this.setState({revealed: true});
+    }
+
+    backToYourAnswer = ()=>{
+        this.setState({revealed: false});
     }
 
     render(){
@@ -283,6 +303,7 @@ class GameBoard extends React.Component{
                                             key={`${n.row}${n.column}`} 
                                             n={n} 
                                             toggleClass={this.toggleClass}
+                                            revealed={this.state.revealed}
                                         />
                                     ))}
                                 </tr>
@@ -295,9 +316,15 @@ class GameBoard extends React.Component{
                             this.state.sudoku[this.state.currentActive.row][this.state.currentActive.column].guess : 0}
                         currentActive={this.state.currentActive} 
                         handleInputNum={this.handleInputNumClick}
+                        revealed={this.state.revealed}
                     />
                 </div>
-                <Toolbar newGame={this.newGame} revealAll={this.revealAll} />
+                <Toolbar 
+                    newGame={this.newGame} 
+                    revealAll={this.revealAll} 
+                    backToYourAnswer={this.backToYourAnswer}
+                    revealed={this.state.revealed}
+                />
             </div>
         );
     }
