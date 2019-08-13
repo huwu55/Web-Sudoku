@@ -2,6 +2,7 @@ import React from "react";
 // import sudokuGenerator from './sudokuGenerator';
 import GameBoard from './components/GameBoard';
 import Instruction from './components/Instruction';
+// import Toolbar from './components/Toolbar';
 import "./style/style.css";
 
 
@@ -9,21 +10,29 @@ import "./style/style.css";
 //     constructor(){
 //         super();
 
+//         // let solvedSudoku = sudokuGenerator();
+
 //         // this.state = {
-//         //     sudoku : []
+//         //     solvedSudoku,
+//         //     revealAll: false
 //         // }
 //     }
 
-//     //componentDidMount(){
-//     //     let sudoku = sudokuGenerator();
-//     //     this.setState({sudoku});
-//     //     console.log(this);
+//     // newGame = ()=>{
+//     //     // console.log("hello");
+//     //     let solvedSudoku = sudokuGenerator();
+//     //     this.setState({solvedSudoku});
+//     //     console.log(solvedSudoku);
 //     // }
+
+//     // revealAll = ()=>{}
 
 //     render(){
 //         return(
-//             <div>
+//             <div id='app'>
+//                 <Instruction />
 //                 <GameBoard />
+//                 {/* <Toolbar newGame={this.newGame} /> */}
 //             </div>
 //         );
 //     }
@@ -31,6 +40,7 @@ import "./style/style.css";
 // }
 
 // export default Sudoku;
+
 
 export default ()=>{
     return (

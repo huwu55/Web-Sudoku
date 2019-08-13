@@ -2,7 +2,7 @@ import React from "react";
 import sudokuGenerator from '../sudokuGenerator';
 import Grid from "./Grid/Grid";
 import InputOptions from './Grid/InputOptions';
-
+import Toolbar from './Toolbar';
 
 class GameBoard extends React.Component{
     constructor(props){
@@ -74,7 +74,7 @@ class GameBoard extends React.Component{
 
         for(let i = 0; i < 9; i++){
             for(let j = 0; j < 9; j++){
-                if(num_prefilled > 17 && Math.random() > 0.21){
+                if(num_prefilled > 22 && Math.random() > (22/81)){
                     sudoku[i][j].prefilled = false;
                     num_prefilled--;
                 }
@@ -245,31 +245,59 @@ class GameBoard extends React.Component{
         this.setState({sudoku});
     }
 
+    newGame = ()=>{
+        let solvedSudoku = sudokuGenerator();
+        let sudoku = solvedSudoku.map((row, r)=>{
+            return row.map((n, c)=>{
+                return {
+                    digit: n,
+                    guess: 0,
+                    prefilled: true,
+                    conflicts: [],
+                    active: false,
+                    row: r,
+                    column: c
+                };
+            });
+        });
+
+        sudoku = this.removeNumbers(sudoku);
+
+        this.setState({sudoku});
+    }
+
+    revealAll = ()=>{
+        this.setState({revealed: true});
+    }
+
     render(){
         return(
-            <div id="gameboard">
-                <table>
-                    <tbody>
-                        {this.state.sudoku.map((row, i)=>(
-                            <tr key={i}>
-                                {row.map((n)=>(
-                                    <Grid 
-                                        key={`${n.row}${n.column}`} 
-                                        n={n} 
-                                        toggleClass={this.toggleClass}
-                                    />
-                                ))}
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+            <div id='game'>
+                <div id="gameboard">
+                    <table>
+                        <tbody>
+                            {this.state.sudoku.map((row, i)=>(
+                                <tr key={i}>
+                                    {row.map((n)=>(
+                                        <Grid 
+                                            key={`${n.row}${n.column}`} 
+                                            n={n} 
+                                            toggleClass={this.toggleClass}
+                                        />
+                                    ))}
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
 
-                <InputOptions 
-                    guess={this.state.currentActive.row!==-1 ? 
-                        this.state.sudoku[this.state.currentActive.row][this.state.currentActive.column].guess : 0}
-                    currentActive={this.state.currentActive} 
-                    handleInputNum={this.handleInputNumClick}
-                />
+                    <InputOptions 
+                        guess={this.state.currentActive.row!==-1 ? 
+                            this.state.sudoku[this.state.currentActive.row][this.state.currentActive.column].guess : 0}
+                        currentActive={this.state.currentActive} 
+                        handleInputNum={this.handleInputNumClick}
+                    />
+                </div>
+                <Toolbar newGame={this.newGame} revealAll={this.revealAll} />
             </div>
         );
     }
