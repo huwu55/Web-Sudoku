@@ -107,14 +107,17 @@ class GameBoard extends React.Component{
         if(this.state.currentActive.row === -1 || this.state.revealed)
             return;
 
-        if(event.keyCode >= 49 && event.keyCode <= 57){
+        if((event.keyCode >= 49 && event.keyCode <= 57) || event.keyCode === 8 || event.keyCode === 46){
             let sudoku = [...this.state.sudoku];
             let inputNum = parseInt(String.fromCharCode(event.keyCode));
 
             if(sudoku[this.state.currentActive.row][this.state.currentActive.column].guess === inputNum)
                 return;
 
-            sudoku[this.state.currentActive.row][this.state.currentActive.column].guess = inputNum;
+            if(event.keyCode === 8 || event.keyCode === 46)
+                sudoku[this.state.currentActive.row][this.state.currentActive.column].guess = 0;
+            else 
+                sudoku[this.state.currentActive.row][this.state.currentActive.column].guess = inputNum;
             this.setState({sudoku}, ()=>this.checkConflict());
         }
     }
@@ -274,15 +277,6 @@ class GameBoard extends React.Component{
     }
 
     revealAll = ()=>{
-        // let sudoku = [...this.state.sudoku];
-
-        // sudoku = sudoku.map(r=>{
-        //     return r.map(n=>{
-        //         n.conflicts = [];
-        //         return n;
-        //     });
-        // });
-
         this.setState({revealed: true});
     }
 
@@ -290,9 +284,30 @@ class GameBoard extends React.Component{
         this.setState({revealed: false});
     }
 
+    restart = ()=>{
+        let sudoku = [...this.state.sudoku];
+
+        sudoku = sudoku.map(r=>{
+            return r.map(n=>{
+                n.conflicts = [];
+                n.guess = 0;
+                return n;
+            });
+        });
+        
+        this.setState({sudoku});
+    }
+
     render(){
         return(
             <div id='game'>
+                <Toolbar 
+                    newGame={this.newGame} 
+                    revealAll={this.revealAll} 
+                    backToYourAnswer={this.backToYourAnswer}
+                    revealed={this.state.revealed}
+                    restart={this.restart}
+                />
                 <div id="gameboard">
                     <table>
                         <tbody>
@@ -319,12 +334,13 @@ class GameBoard extends React.Component{
                         revealed={this.state.revealed}
                     />
                 </div>
-                <Toolbar 
+                {/* <Toolbar 
                     newGame={this.newGame} 
                     revealAll={this.revealAll} 
                     backToYourAnswer={this.backToYourAnswer}
                     revealed={this.state.revealed}
-                />
+                    restart={this.restart}
+                /> */}
             </div>
         );
     }

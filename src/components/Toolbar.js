@@ -3,13 +3,14 @@ import React from "react";
 export default (props)=>{
     return (
         <div id='toolbar'>
-            <button onClick={()=>props.newGame()}>New Game</button>
+            <button className='restart' onClick={()=>{props.restart()}}>Restart</button>
             {!props.revealed && 
-                <button onClick={()=>props.revealAll()}>Reveal All</button>
+                <button className='revealall' onClick={()=>props.revealAll()}>Reveal all</button>
             }
             {props.revealed &&
-                <button onClick={()=>props.backToYourAnswer()}>Go back to your answer</button>
+                <button className='back2answer' onClick={()=>props.backToYourAnswer()}>Go back to your answer</button>
             }
+            <button className='newgame' onClick={()=>props.newGame()}>New game</button>
         </div>
     );
 }
