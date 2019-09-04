@@ -4,7 +4,7 @@ export default ()=>{
     return (
         <div id='footer'>
             Web Sudoku &copy;2019&nbsp;
-            <a title="Github" href="https://github.com/huwu55/Web-Sudoku" target="_blank">
+            <a title="Github" href="https://github.com/huwu55/Web-Sudoku" target="_blank" rel="noopener noreferrer">
                 Huiling Wu <i className="fab fa-github"></i>
             </a>
         </div>

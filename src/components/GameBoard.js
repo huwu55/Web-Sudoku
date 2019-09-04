@@ -32,7 +32,8 @@ class GameBoard extends React.Component{
                 row: -1,
                 column: -1
             },
-            revealed: false
+            revealed: false,
+            candidateMode: false
         };
     }
 
@@ -298,10 +299,18 @@ class GameBoard extends React.Component{
         this.setState({sudoku});
     }
 
+    switchMode = ()=> {
+        let candidateMode = this.state.candidateMode;
+
+        this.setState({candidateMode: !candidateMode});
+    }
+
     render(){
         return(
             <div id='game'>
                 <Toolbar 
+                    candidateMode={this.state.candidateMode}
+                    switchMode={this.switchMode}
                     newGame={this.newGame} 
                     revealAll={this.revealAll} 
                     backToYourAnswer={this.backToYourAnswer}
@@ -319,6 +328,7 @@ class GameBoard extends React.Component{
                                             n={n} 
                                             toggleClass={this.toggleClass}
                                             revealed={this.state.revealed}
+                                            candidateMode={this.state.candidateMode}
                                         />
                                     ))}
                                 </tr>

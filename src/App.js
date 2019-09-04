@@ -3,6 +3,7 @@ import React from "react";
 import GameBoard from './components/GameBoard';
 import Instruction from './components/Instruction';
 // import Toolbar from './components/Toolbar';
+import Footer from './components/Footer';
 import "./style/style.css";
 
 
@@ -47,6 +48,7 @@ export default ()=>{
         <div id='app'>
             <Instruction />
             <GameBoard />
+            <Footer/>
         </div>
     );
 }
