@@ -31,6 +31,7 @@ export default (props)=>{
                         display={props.n.guess === 0}
                         currentActive={props.currentActive}
                         candidateMode={props.candidateMode}
+                        revealed={props.revealed}
                     />
                 {/* } */}
             </div>

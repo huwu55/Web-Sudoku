@@ -294,19 +294,19 @@ class GameBoard extends React.Component{
         this.setState({revealed: false});
     }
 
-    restart = ()=>{
-        let sudoku = [...this.state.sudoku];
+    // restart = ()=>{
+    //     let sudoku = [...this.state.sudoku];
 
-        sudoku = sudoku.map(r=>{
-            return r.map(n=>{
-                n.conflicts = [];
-                n.guess = 0;
-                return n;
-            });
-        });
+    //     sudoku = sudoku.map(r=>{
+    //         return r.map(n=>{
+    //             n.conflicts = [];
+    //             n.guess = 0;
+    //             return n;
+    //         });
+    //     });
         
-        this.setState({sudoku});
-    }
+    //     this.setState({sudoku});
+    // }
 
     switchMode = ()=> {
         let candidateMode = this.state.candidateMode;
@@ -341,6 +341,7 @@ class GameBoard extends React.Component{
                                             revealed={this.state.revealed}
                                             candidateMode={this.state.candidateMode}
                                             currentActive={this.state.currentActive}
+                                            // revealed={this.state.revealed}
                                         />
                                     ))}
                                 </tr>

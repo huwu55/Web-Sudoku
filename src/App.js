@@ -46,6 +46,7 @@ import "./style/style.css";
 export default ()=>{
     return (
         <div id='app'>
+            <h1 id='sudokuTitle'>SUDOKU</h1>
             <Instruction />
             <GameBoard />
             <Footer/>

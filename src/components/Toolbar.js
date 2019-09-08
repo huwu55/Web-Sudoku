@@ -9,7 +9,7 @@ export default (props)=>{
             {!props.candidateMode && 
                 <button className='entryMode' onClick={()=>props.switchMode()}>Switch to Candidate Mode</button>
             }
-            <button className='restart' onClick={()=>{props.restart()}}>Restart</button>
+            {/* <button className='restart' onClick={()=>{props.restart()}}>Restart</button> */}
             {!props.revealed && 
                 <button className='revealall' onClick={()=>props.revealAll()}>Reveal all</button>
             }

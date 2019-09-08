@@ -28,10 +28,20 @@ class Candidates extends React.Component{
 
     componentDidMount(){
         document.addEventListener('keydown', this.toggleClassKeyPress);
+        // this.resetCandidates();
     }
 
     componentWillUnmount(){
         document.removeEventListener('keydown', this.toggleClassKeyPress);
+    }
+
+    componentDidUpdate(prevProps){
+        if(this.props.currentActive.row === -1 &&
+            this.props.currentActive.column === -1){
+                if(prevProps.currentActive.row !== this.props.currentActive.row &&
+                    prevProps.currentActive.column !== this.props.currentActive.row)
+                    this.resetCandidates();
+            }
     }
 
     toggleClass = (row, column)=>{
@@ -100,9 +110,22 @@ class Candidates extends React.Component{
         }
     }
 
+    resetCandidates = ()=>{
+        //alert("hi");
+        let candidates = [...this.state.candidates];
+
+        for(let r = 0; r < 3; r++){
+            for(let c = 0; c < 3; c++){
+                candidates[r][c].active = false;
+            }
+        }
+
+        this.setState({candidates});
+    }
+
     render(){
         let candidateStyle = {};
-        if(!this.props.display)
+        if(!this.props.display || this.props.revealed)
             candidateStyle = {
                 display: 'none'
             };
