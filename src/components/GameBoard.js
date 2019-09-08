@@ -14,6 +14,7 @@ class GameBoard extends React.Component{
                 return {
                     digit: n,
                     guess: 0,
+                    // candidates: [],
                     prefilled: true,
                     conflicts: [],
                     active: false,
@@ -111,14 +112,22 @@ class GameBoard extends React.Component{
         if((event.keyCode >= 49 && event.keyCode <= 57) || event.keyCode === 8 || event.keyCode === 46){
             let sudoku = [...this.state.sudoku];
             let inputNum = parseInt(String.fromCharCode(event.keyCode));
+            let currentActiveCell = sudoku[this.state.currentActive.row][this.state.currentActive.column];
 
-            if(sudoku[this.state.currentActive.row][this.state.currentActive.column].guess === inputNum)
-                return;
+            if(this.state.candidateMode && event.keyCode !== 8 && event.keyCode !== 46){
+                currentActiveCell.guess = 0;
+            }
+            else{
+                if(currentActiveCell.guess === inputNum)
+                    return;
 
-            if(event.keyCode === 8 || event.keyCode === 46)
-                sudoku[this.state.currentActive.row][this.state.currentActive.column].guess = 0;
-            else 
-                sudoku[this.state.currentActive.row][this.state.currentActive.column].guess = inputNum;
+                if(event.keyCode === 8 || event.keyCode === 46)
+                    currentActiveCell.guess = 0;
+                else 
+                    currentActiveCell.guess = inputNum;
+            }
+
+            sudoku[this.state.currentActive.row][this.state.currentActive.column] = currentActiveCell;
             this.setState({sudoku}, ()=>this.checkConflict());
         }
     }
@@ -305,6 +314,8 @@ class GameBoard extends React.Component{
         this.setState({candidateMode: !candidateMode});
     }
 
+    // handleInputCandidates
+
     render(){
         return(
             <div id='game'>
@@ -329,6 +340,7 @@ class GameBoard extends React.Component{
                                             toggleClass={this.toggleClass}
                                             revealed={this.state.revealed}
                                             candidateMode={this.state.candidateMode}
+                                            currentActive={this.state.currentActive}
                                         />
                                     ))}
                                 </tr>

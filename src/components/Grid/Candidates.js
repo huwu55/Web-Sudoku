@@ -1,19 +1,22 @@
 import React from "react";
+// import Candidate from './Candidate';
 
 class Candidates extends React.Component{
     constructor(props){
         super(props);
-
+        // console.log(props.candidates);
         let candidates = [];
         for(let j = 0; j < 3; j++){
             let row = [];
             for(let i = 1; i < 4; i++){
                 let candidate = 3*j + i;
-                console.log(candidate);
+                // console.log(candidate);
                 let c = {
                     value: candidate,
                     active: false
                 };
+                // if(props.candidates.includes(candidate))
+                //     c.active = true;
                 row.push(c);
             }
             candidates.push(row);
@@ -21,6 +24,14 @@ class Candidates extends React.Component{
         
 
         this.state = {candidates};
+    }
+
+    componentDidMount(){
+        document.addEventListener('keydown', this.toggleClassKeyPress);
+    }
+
+    componentWillUnmount(){
+        document.removeEventListener('keydown', this.toggleClassKeyPress);
     }
 
     toggleClass = (row, column)=>{
@@ -33,17 +44,79 @@ class Candidates extends React.Component{
         this.setState({candidates});
     }
 
+    toggleClassKeyPress = (event)=>{
+        if(!this.props.candidateMode)
+            return;
+
+        if((this.props.row !== this.props.currentActive.row) || (this.props.column !== this.props.currentActive.column))
+            return;
+        
+        if(this.props.guess === 0 && (event.keyCode === 8 || event.keyCode === 46)){
+            let candidates = [...this.state.candidates];
+            for(let i = 0; i < candidates.length; i++){
+                for(let j = 0; j < candidates[i].length; j++){
+                    candidates[i][j].active = false;
+                }
+            }
+            this.setState({candidates});
+        }
+
+        if(event.keyCode >= 49 && event.keyCode <= 57){
+            let inputNum = parseInt(String.fromCharCode(event.keyCode));
+            let candidates = [...this.state.candidates];
+            switch (inputNum) {
+                case 1 :
+                    candidates[0][0].active = !candidates[0][0].active;
+                    break;
+                case 2 :
+                    candidates[0][1].active = !candidates[0][1].active;
+                    break;
+                case 3 :
+                    candidates[0][2].active = !candidates[0][2].active;
+                    break;
+                case 4 :
+                    candidates[1][0].active = !candidates[1][0].active;
+                    break;
+                case 5 :
+                    candidates[1][1].active = !candidates[1][1].active;
+                    break;
+                case 6 :
+                    candidates[1][2].active = !candidates[1][2].active;
+                    break;
+                case 7 :
+                    candidates[2][0].active = !candidates[2][0].active;
+                    break;
+                case 8 :
+                    candidates[2][1].active = !candidates[2][1].active;
+                    break;
+                case 9 :
+                    candidates[2][2].active = !candidates[2][2].active;
+                    break;
+                default: 
+                    break;
+            }
+
+            this.setState({candidates});
+        }
+    }
+
     render(){
+        let candidateStyle = {};
+        if(!this.props.display)
+            candidateStyle = {
+                display: 'none'
+            };
+        
         return(
-            <div className="candidates">
+            <div className="candidates" style={candidateStyle}>
                 {!this.props.prefilled &&
                     <table>
                         <tbody>
                             {this.state.candidates.map((r,i)=>(
-                                <tr key={`${this.props.gridPosition}row${i}`}>
+                                <tr key={`${this.props.row}${this.props.column}row${i}`}>
                                     {r.map((c, j)=>(
                                         <td className={this.state.candidates[i][j].active ? 'activeCandidate' : ''} 
-                                            key={`${this.props.gridPosition}column${j}`} 
+                                            key={`${this.props.row}${this.props.column}column${j}`} 
                                             onClick={()=>this.toggleClass(i, j)}
                                         >
                                             {c.value}
