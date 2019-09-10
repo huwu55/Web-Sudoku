@@ -34,7 +34,7 @@ class GameBoard extends React.Component{
                 column: -1
             },
             revealed: false,
-            candidateMode: false
+            candidateMode: true
         };
     }
 
