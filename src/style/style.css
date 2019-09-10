@@ -35,6 +35,7 @@ body{
     box-shadow: 2px 2px 5px grey;
     padding: 10px;
     background:white;
+    border-color:darkgrey;
 }
 
 #instruction, #toolbar{
@@ -62,6 +63,8 @@ body{
     background-color: white;
     border: 2px solid grey;
     border-radius: 5px;
+    border-color:darkgrey;
+
 }
 
 #toolbar button:hover {
@@ -91,6 +94,7 @@ body{
 table {
     text-align: center;
     border-collapse: collapse;
+    border-color:darkgrey;
     width: 100%;
     height: 100%;
     table-layout: fixed;
@@ -99,10 +103,14 @@ table {
 
 tr:nth-child(3), tr:nth-child(6){
     border-bottom: 3px solid;
+    border-color:grey;
+    /* background-color: #ECF4DE; */
 }
 
 td:nth-child(3), td:nth-child(6){
     border-right: 3px solid;
+    border-color:grey;
+
 }
 
 td {
@@ -113,14 +121,20 @@ td {
     height: auto;
     text-align: center;
     vertical-align: middle;
-}
+    border-color:darkgrey;
 
+}
 
 .cell{
     border: 4px solid rgba(0,0,0,0);
     border-collapse: collapse;
+    /* padding: 4px 0; */
+    /* height: 47px; */
+    /* overflow: auto; */
+}
+
+.digit{
     padding: 4px 0;
-    height: 38px;
 }
 
 .active{
