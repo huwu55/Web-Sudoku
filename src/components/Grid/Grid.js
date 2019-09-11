@@ -10,7 +10,7 @@ export default (props)=>{
     if(props.n.conflicts.length !== 0 && !props.revealed)
         cellstyle+=' conflict';
 
-    if(props.n.prefilled || props.n.guess!=0 || props.revealed)
+    if(props.n.prefilled || props.n.guess!==0 || props.revealed)
         cellstyle+=' digit';
     
     return(

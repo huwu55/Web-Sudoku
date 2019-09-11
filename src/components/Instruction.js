@@ -10,8 +10,8 @@ export default (props) => {
             </p>
             <h3><u>How to Play</u></h3>
             <p>
-                Click on each empty cell, enter digit with keyboard or number bar that's provided. 
-                Use Backspace or Delete to clear entries.
+                Click on each empty cell, enter your guess or candidates with keyboard by switching between <strong>Entry Mode</strong> or <strong>Candidate Mode</strong>. 
+                Hit Backspace or Delete to clear entries.
             </p>
         </div>
     );

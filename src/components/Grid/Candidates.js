@@ -45,13 +45,16 @@ class Candidates extends React.Component{
     }
 
     toggleClass = (row, column)=>{
-        let candidates = [...this.state.candidates];
+        if(this.props.currentActive.row === this.props.row &&
+            this.props.currentActive.column === this.props.column){        
+            let candidates = [...this.state.candidates];
 
-        let active = !candidates[row][column].active;
+            let active = !candidates[row][column].active;
 
-        candidates[row][column].active = active;
+            candidates[row][column].active = active;
 
-        this.setState({candidates});
+            this.setState({candidates});
+        }
     }
 
     toggleClassKeyPress = (event)=>{

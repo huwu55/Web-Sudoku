@@ -3,6 +3,7 @@ import sudokuGenerator from '../sudokuGenerator';
 import Grid from "./Grid/Grid";
 import InputOptions from './Grid/InputOptions';
 import Toolbar from './Toolbar';
+import SudokuCompleted from './SudokuCompleted';
 
 class GameBoard extends React.Component{
     constructor(props){
@@ -24,17 +25,20 @@ class GameBoard extends React.Component{
             });
         });
 
-        sudoku = this.removeNumbers(sudoku);
+        let {sudoku_new, numPrefilled} = this.removeNumbers(sudoku);
 
         this.state = {
-            sudoku,
+            sudoku: sudoku_new,
             //currentActive : null
             currentActive : {
                 row: -1,
                 column: -1
             },
             revealed: false,
-            candidateMode: true
+            candidateMode: false,
+            numPrefilled,
+            numGuessed: 0,
+            completed: false
         };
     }
 
@@ -71,12 +75,11 @@ class GameBoard extends React.Component{
     }
 
     removeNumbers = (sudoku) => {
-        // .21
         let num_prefilled = 81;
 
         for(let i = 0; i < 9; i++){
             for(let j = 0; j < 9; j++){
-                if(num_prefilled > 22 && Math.random() > (22/81)){
+                if(num_prefilled > 23 && Math.random() > (23/81)){
                     sudoku[i][j].prefilled = false;
                     num_prefilled--;
                 }
@@ -88,9 +91,10 @@ class GameBoard extends React.Component{
                 break;
         }
 
-        return sudoku;
+        return {sudoku_new: sudoku, numPrefilled: num_prefilled};
     }
 
+    // for number pad, but now it's not available
     handleInputNumClick = (inputNum) => {
         if(this.state.currentActive.row === -1 || this.state.revealed)
             return;
@@ -113,22 +117,39 @@ class GameBoard extends React.Component{
             let sudoku = [...this.state.sudoku];
             let inputNum = parseInt(String.fromCharCode(event.keyCode));
             let currentActiveCell = sudoku[this.state.currentActive.row][this.state.currentActive.column];
+            let numGuessed = this.state.numGuessed;
 
-            if(this.state.candidateMode && event.keyCode !== 8 && event.keyCode !== 46){
-                currentActiveCell.guess = 0;
+            if(this.state.candidateMode){
+                if(currentActiveCell.guess !== 0){
+                    currentActiveCell.guess = 0;
+                    numGuessed--;
+                }
             }
             else{
                 if(currentActiveCell.guess === inputNum)
                     return;
 
-                if(event.keyCode === 8 || event.keyCode === 46)
-                    currentActiveCell.guess = 0;
-                else 
+                if(event.keyCode === 8 || event.keyCode === 46){
+                    if(currentActiveCell.guess !== 0){
+                        currentActiveCell.guess = 0;
+                        numGuessed--;
+                    }
+                }
+                else {
                     currentActiveCell.guess = inputNum;
+                    numGuessed++;
+                }
             }
 
             sudoku[this.state.currentActive.row][this.state.currentActive.column] = currentActiveCell;
-            this.setState({sudoku}, ()=>this.checkConflict());
+            this.setState({sudoku, numGuessed}, ()=> {
+                let conflict = this.checkConflict();
+                if(conflict)
+                    return;
+
+                if(this.state.numPrefilled+this.state.numGuessed === 81)
+                    this.checkIfCompletedSudoku();
+            });
         }
     }
 
@@ -256,6 +277,7 @@ class GameBoard extends React.Component{
 
         sudoku[currentActive.row][currentActive.column] = {...currentGrid};
         this.setState({sudoku});
+        return currentGrid.conflicts.length === 0;
     }
 
     newGame = ()=>{
@@ -314,7 +336,23 @@ class GameBoard extends React.Component{
         this.setState({candidateMode: !candidateMode});
     }
 
-    // handleInputCandidates
+    checkIfCompletedSudoku = () => {
+        let sudoku = this.state.sudoku;
+        let completed = true;
+
+        for(let r = 0; r < sudoku.length; r++){
+            for(let c = 0; c < sudoku[r].length; c++){
+                if(sudoku[r][c].guess !== sudoku[r][c].digit){
+                    completed = false;
+                    break;
+                }
+            }
+            if (!completed)
+                break;
+        }
+        
+        this.setState({completed});
+    }
 
     render(){
         return(
@@ -357,13 +395,10 @@ class GameBoard extends React.Component{
                         revealed={this.state.revealed}
                     />
                 </div>
-                {/* <Toolbar 
-                    newGame={this.newGame} 
-                    revealAll={this.revealAll} 
-                    backToYourAnswer={this.backToYourAnswer}
-                    revealed={this.state.revealed}
-                    restart={this.restart}
-                /> */}
+
+                {this.state.completed && 
+                    <SudokuCompleted />
+                }
             </div>
         );
     }
