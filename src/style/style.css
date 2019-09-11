@@ -61,7 +61,7 @@ body{
     padding: 5px;
     width: 100px;
     background-color: white;
-    border: 2px solid grey;
+    border: 2px solid;
     border-radius: 5px;
     border-color:darkgrey;
 
@@ -71,12 +71,35 @@ body{
     cursor: pointer;
 }
 
-.restart:hover, .revealall:hover{
-    box-shadow: 2px 2px 5px red;
+.entryMode {
+    height: 30px;
+    /* width: 50px; */
+    border-radius: 5px;
+    border: 2px solid darkgrey;
+    background-color: white;
+    display: block;
+    margin-bottom: 10px;
+    color: #8159C7;
+    padding: 0 5px;
+}
+
+.entryMode div{
+    color: black;
+    display: inline;
+    vertical-align: 10px;
+    font-size: 13.3333px;
+}
+
+.material-icons{
+    font-size: 30px;
+}
+
+.restart:hover, .revealall:hover, .entryMode:hover{
+    box-shadow: 2px 2px 5px #8159C7;
 }
 
 .newgame:hover{
-    box-shadow: 2px 2px 5px green;
+    box-shadow: 2px 2px 5px #8159C7;
 }
 
 .back2answer:hover{
@@ -232,6 +255,11 @@ td {
         height: 45px;
         text-align: center;
         padding: 0;
+    }
+
+    .entryMode{
+        vertical-align: -10px;
+        display: inline-block;
     }
 
     #toolbar button{

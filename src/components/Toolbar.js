@@ -4,10 +4,18 @@ export default (props)=>{
     return (
         <div id='toolbar'>
             {props.candidateMode && 
-                <button className='entryMode' onClick={()=>props.switchMode()}>Switch to Entry Mode</button>
+                <div className='entryMode' title='Switch to Entry Mode' onClick={()=>props.switchMode()}>
+                    <i className="material-icons">looks_one</i>
+                    <div>Switch to Entry Mode</div>
+                </div>
             }
             {!props.candidateMode && 
-                <button className='entryMode' onClick={()=>props.switchMode()}>Switch to Candidate Mode</button>
+                <div className='entryMode' title='Switch to Candidate Mode' onClick={()=>props.switchMode()}>
+                    <i className="material-icons">grid_on</i>
+                    <div>
+                        Switch to Candidate Mode
+                    </div>
+                </div>
             }
             {/* <button className='restart' onClick={()=>{props.restart()}}>Restart</button> */}
             {!props.revealed && 
