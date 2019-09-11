@@ -296,15 +296,20 @@ class GameBoard extends React.Component{
             });
         });
 
-        sudoku = this.removeNumbers(sudoku);
+        // sudoku = this.removeNumbers(sudoku);
+        let {sudoku_new, numPrefilled} = this.removeNumbers(sudoku);
 
         this.setState({
-            sudoku, 
+            sudoku: sudoku_new, 
             currentActive : {
                 row: -1,
                 column: -1
             },
-            revealed: false
+            revealed: false,
+            candidateMode: false,
+            numPrefilled,
+            numGuessed: 0,
+            completed: false
         });
     }
 
@@ -397,7 +402,7 @@ class GameBoard extends React.Component{
                 </div>
 
                 {this.state.completed && 
-                    <SudokuCompleted />
+                    <SudokuCompleted newGame={this.newGame} />
                 }
             </div>
         );
