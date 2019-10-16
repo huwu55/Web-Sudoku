@@ -1,6 +1,7 @@
 import React from "react";
 import sudokuGenerator from '../sudokuGenerator';
 import Grid from "./Grid/Grid";
+import Instruction from './Instruction';
 import InputOptions from './Grid/InputOptions';
 import Toolbar from './Toolbar';
 import SudokuCompleted from './SudokuCompleted';
@@ -362,6 +363,7 @@ class GameBoard extends React.Component{
     render(){
         return(
             <div id='game'>
+                <Instruction />
                 <Toolbar 
                     candidateMode={this.state.candidateMode}
                     switchMode={this.switchMode}

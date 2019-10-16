@@ -1,0 +1,23 @@
+.wrapper{
+    display: grid;
+    place-items: center;
+}
+
+#game{
+    display: grid;
+    grid-template-areas:
+        'instruction gameboard gameboard gameboard toolbar';
+}
+
+#instruction{
+    grid-area: instruction;
+}
+
+#gameboard{
+    grid-area: gameboard;
+}
+
+#toolbar{
+    grid-area: toolbar;
+}
+

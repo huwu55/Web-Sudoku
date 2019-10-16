@@ -1,10 +1,8 @@
 import React from "react";
-// import sudokuGenerator from './sudokuGenerator';
 import GameBoard from './components/GameBoard';
-import Instruction from './components/Instruction';
-// import Toolbar from './components/Toolbar';
 import Footer from './components/Footer';
 import "./style/style.css";
+import './style/grid.css';
 
 
 // class Sudoku extends React.Component {
@@ -45,9 +43,8 @@ import "./style/style.css";
 
 export default ()=>{
     return (
-        <div id='app'>
+        <div id='app' className='wrapper'>
             <h1 id='sudokuTitle'>SUDOKU</h1>
-            <Instruction />
             <GameBoard />
             <Footer/>
         </div>
