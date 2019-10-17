@@ -137,19 +137,22 @@ class GameBoard extends React.Component{
                     }
                 }
                 else {
+                    if (currentActiveCell.guess === 0)
+                        numGuessed++;
                     currentActiveCell.guess = inputNum;
-                    numGuessed++;
                 }
             }
 
             sudoku[this.state.currentActive.row][this.state.currentActive.column] = currentActiveCell;
             this.setState({sudoku, numGuessed}, ()=> {
+                // console.log(this.state.numPrefilled, this.state.numGuessed);
                 let conflict = this.checkConflict();
                 if(conflict)
                     return;
-
-                if(this.state.numPrefilled+this.state.numGuessed === 81)
+                if(this.state.numPrefilled+this.state.numGuessed === 81){
+                    //console.log("here");
                     this.checkIfCompletedSudoku();
+                }
             });
         }
     }
@@ -278,7 +281,7 @@ class GameBoard extends React.Component{
 
         sudoku[currentActive.row][currentActive.column] = {...currentGrid};
         this.setState({sudoku});
-        return currentGrid.conflicts.length === 0;
+        return currentGrid.conflicts.length !== 0;
     }
 
     newGame = ()=>{
@@ -345,10 +348,13 @@ class GameBoard extends React.Component{
     checkIfCompletedSudoku = () => {
         let sudoku = this.state.sudoku;
         let completed = true;
-
+        //console.log("in this function");
         for(let r = 0; r < sudoku.length; r++){
             for(let c = 0; c < sudoku[r].length; c++){
+                if(sudoku[r][c].prefilled)  continue;
                 if(sudoku[r][c].guess !== sudoku[r][c].digit){
+                    //console.log(sudoku[r][c].guess, sudoku[r][c].digit);
+                    console.log(r, c);
                     completed = false;
                     break;
                 }
@@ -356,6 +362,9 @@ class GameBoard extends React.Component{
             if (!completed)
                 break;
         }
+        //console.log(completed);
+        // if(completed)
+        //     alert('completed');
         
         this.setState({completed});
     }
